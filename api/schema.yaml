@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info: 
+  version: 1.0.0
+  title: server API
+  description: АПИ сервисов Dance Link
+
+paths: 
+  /api/{version}/user-profile/user-info:
+    parameters:
+      - $ref: '#/components/parameters/Version'
+    
+    get:
+      summary: Возвращает информацию о пользователе
+      operationId: GetUserInfo
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserInfoResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - dance_link_auth: []
+  
+  /api/{version}/user-profile/user-info/select-items:
+    parameters:
+      - $ref: '#/components/parameters/Version'
+    
+    get:
+      summary: Возвращает доступные варианты select'ов для страницы редактирования профиля
+      operationId: GetUserInfoSelectItems
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserInfoSelectItemsResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - dance_link_auth: []
+
+components:
+  securitySchemes:
+    dance_link_auth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    Version:
+      name: version
+      description: api version
+      in: path 
+      schema: 
+        type: integer
+        format: int64
+      required: true
+
+  responses:
+    Unauthorized:
+      description: Unauthorized
+    Forbidden:
+      description: Forbidden
+    InternalServerError:
+      description: Internal Server Error
+
+  schemas:
+    GetUserInfoResponse:
+      type: object
+      properties:
+        profilePictureUrl:
+          type: string
+          nullable: false
+          example: "https://www.kindpng.com/picc/m/423-4235440_pepe-profile-hd-png-download.png"
+        name:
+          type: string
+          nullable: false
+          example: "Анастасия"
+        age:
+          type: string
+          nullable: false
+          example: "21 год"
+        city:
+          type: string
+          nullable: false
+          example: "Тюмень"
+        danceStyle:
+          type: string
+          nullable: false
+          example: "Современная хореография"
+        danceExperience:
+          type: string
+          nullable: false
+          example: "4 года"
+        note:
+          type: string
+          nullable: true
+          example: "Занимаюсь бальными танцами 4 года. Всё это время танцую соло. Сейчас ищу партнера, чтобы стать в пару"
+        media:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+                nullable: false
+                example: 524739
+              type:
+                type: string
+                nullable: false
+                example: "video"
+              previewUrl:
+                type: string
+                nullable: false
+                example: "https://cdn.vox-cdn.com/uploads/chorus_asset/file/22312759/rickroll_4k.jpg"
+              url:
+                type: string
+                nullable: false
+                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            required:
+              - id
+              - type
+              - previewUrl
+              - url
+          nullable: false
+      required:
+        - profilePictureUrl
+        - name
+        - age
+        - city
+        - danceStyle
+        - danceExperience
+        - media
+        
+    GetUserInfoSelectItemsResponse:
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+                nullable: false
+                example: "dancer"
+              title:
+                type: string
+                nullable: false
+                example: "Я – танцор"
+            required:
+              - slug
+              - title
+          nullable: false
+        cities:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+                nullable: false
+                example: "tyumen"
+              title:
+                type: string
+                nullable: false
+                example: "Тюмень"
+            required:
+              - slug
+              - title
+          nullable: false
+        danceStyles:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+                nullable: false
+                example: "modern_choreography"
+              title:
+                type: string
+                nullable: false
+                example: "Современная хореография"
+            required:
+              - slug
+              - title
+          nullable: false
+        danceLevels:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+                nullable: false
+                example: "advanced"
+              title:
+                type: string
+                nullable: false
+                example: "Продвинутый"
+            required:
+              - slug
+              - title
+          nullable: false
+        danceExperiences:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+                nullable: false
+                example: "ten_years_and_more"
+              title:
+                type: string
+                nullable: false
+                example: "10 и более лет"
+            required:
+              - slug
+              - title
+          nullable: false
+      required:
+        - statuses
+        - cities
+        - danceStyles
+        - danceLevels
+        - danceExperiences
