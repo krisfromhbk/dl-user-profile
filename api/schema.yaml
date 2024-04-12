@@ -62,7 +62,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/shemas/UpdateUserInfoRequest'
+              $ref: '#/components/schemas/UpdateUserInfoRequest'
       responses:
         200:
           description: OK
@@ -348,3 +348,8 @@ components:
         - danceStyles
         - danceLevels
         - danceExperiences
+    
+    UpdateUserInfoRequest:
+      type: object
+      properties:
+        
