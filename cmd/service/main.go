@@ -1,8 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"dl-user-profile/internal/server"
+	"fmt"
+)
 
 func main() {
-  a := 1
-  fmt.Println(a)
+	srv := server.New()
+	err := srv.Start()
+	if err != nil {
+		fmt.Println(err)
+	}
 }

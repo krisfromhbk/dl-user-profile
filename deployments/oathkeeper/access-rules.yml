@@ -37,6 +37,24 @@
   mutators:
     -
       handler: noop
+      
+-
+  id: "ory:kratos-selfservice-api-node:anonymous"
+  upstream:
+    preserve_host: true
+    url: "http://kratos:4433"
+  match:
+    url: "http://127.0.0.1:4455/self-service/<**>"
+    methods:
+      - GET
+  authenticators:
+    -
+      handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    -
+      handler: noop
 
 -
   id: "ory:kratos-selfservice-ui-node:protected"

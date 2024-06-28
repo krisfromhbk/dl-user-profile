@@ -221,29 +221,7 @@ components:
         media:
           type: array
           items: 
-            type: object
-            properties:
-              id:
-                type: integer
-                nullable: false
-                example: 524739
-              type:
-                type: string
-                nullable: false
-                example: "video"
-              previewUrl:
-                type: string
-                nullable: false
-                example: "https://cdn.vox-cdn.com/uploads/chorus_asset/file/22312759/rickroll_4k.jpg"
-              url:
-                type: string
-                nullable: false
-                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            required:
-              - id
-              - type
-              - previewUrl
-              - url
+            $ref: '#/components/schemas/MediaItem'
           nullable: false
       required:
         - profilePictureUrl
@@ -253,6 +231,31 @@ components:
         - danceStyle
         - danceExperience
         - media
+    
+    MediaItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: false
+          example: 524739
+        type:
+          type: string
+          nullable: false
+          example: "video"
+        previewUrl:
+          type: string
+          nullable: false
+          example: "https://cdn.vox-cdn.com/uploads/chorus_asset/file/22312759/rickroll_4k.jpg"
+        url:
+          type: string
+          nullable: false
+          example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      required:
+        - id
+        - type
+        - previewUrl
+        - url
         
     GetUserInfoSelectItemsResponse:
       type: object
@@ -260,87 +263,46 @@ components:
         statuses:
           type: array
           items:
-            type: object
-            properties:
-              slug:
-                type: string
-                nullable: false
-                example: "dancer"
-              title:
-                type: string
-                nullable: false
-                example: "Я – танцор"
-            required:
-              - slug
-              - title
+            $ref: '#/components/schemas/SlugTitleItem'
+          example:
+            - slug: "dancer"
+              title: "Я - танцор" 
+            - slug: "teacher"
+              title: "Я - учитель"
           nullable: false
         cities:
           type: array
           items:
-            type: object
-            properties:
-              slug:
-                type: string
-                nullable: false
-                example: "tyumen"
-              title:
-                type: string
-                nullable: false
-                example: "Тюмень"
-            required:
-              - slug
-              - title
+            $ref: '#/components/schemas/SlugTitleItem'
+          example:
+            slug: "tyumen"
+            title: "Тюмень"
           nullable: false
         danceStyles:
           type: array
           items:
-            type: object
-            properties:
-              slug:
-                type: string
-                nullable: false
-                example: "modern_choreography"
-              title:
-                type: string
-                nullable: false
-                example: "Современная хореография"
-            required:
-              - slug
-              - title
+            $ref: '#/components/schemas/SlugTitleItem'
+          example:
+            slug: "modern_choreography"
+            title: "Современная хореография"
           nullable: false
         danceLevels:
           type: array
           items:
-            type: object
-            properties:
-              slug:
-                type: string
-                nullable: false
-                example: "advanced"
-              title:
-                type: string
-                nullable: false
-                example: "Продвинутый"
-            required:
-              - slug
-              - title
+            $ref: '#/components/schemas/SlugTitleItem'
+          example:
+          - slug: "beginner"
+            title: "Начинающий"
+          - slug: "advanced"
+            title: "Продвинутый"
           nullable: false
         danceExperiences:
           type: array
           items:
-            type: object
-            properties:
-              slug:
-                type: string
-                nullable: false
-                example: "ten_years_and_more"
-              title:
-                type: string
-                nullable: false
-                example: "10 и более лет"
-            required:
-              - slug
-              - title
+            $ref: '#/components/schemas/SlugTitleItem'
+          example:
+            slug: "ten_years_and_more"
+            title: "10 и более лет"
           nullable: false
       required:
         - statuses
@@ -348,6 +310,19 @@ components:
         - danceStyles
         - danceLevels
         - danceExperiences
+    
+    SlugTitleItem:
+      type: object
+      properties:
+        slug:
+          type: string
+          nullable: false
+        title:
+          type: string
+          nullable: false
+      required:
+        - slug
+        - title
     
     UpdateUserInfoRequest:
       type: object
